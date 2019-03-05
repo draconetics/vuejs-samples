@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	
+	<div id="app" class="container mt-5">
+		<h3>{{message}}</h3>
+		<h3>Inverted : {{inverted}}</h3>
+		<input type="text" class="form-control" v-model="message"/>
+
+		<button class="btn btn-primary" @click="changeCounter(2)">+</button>
+		<button class="btn btn-danger" @click="changeCounter(-2)">-</button>
+		<h3>Counter : {{counter}}</h3>
+		<div class="progress">
+		  <div class="progress-bar" :class="changeColor" role="progressbar" :style="{'width': counter+'%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{counter}}%</div>
+		</div>
+	</div>
+
+
+	<!-- production version, optimized for size and speed -->
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+	const app = new Vue({
+		el: '#app',
+		data: {
+			message: 'hello world',
+			counter: 0,
+			colorBar: 'bg-primary'
+		},
+		methods:{
+			changeCounter(amount) {
+				if(amount === 2)
+					this.counter = this.counter + 2;
+				if(amount === -2)
+					this.counter = this.counter - 2;
+				if(this.counter < 0 || this.counter > 100)
+					this.counter = 0;
+			}
+		},
+		computed: {
+			inverted() {
+				return this.message.split('').reverse().join('');
+			},
+			changeColor() {
+				return {
+					'bg-info':20 < this.counter && this.counter <= 40,
+					'bg-success':40 < this.counter && this.counter <= 60,
+					'bg-warning':60 < this.counter && this.counter <= 80,
+					'bg-danger': 80 < this.counter && this.counter <= 100
+				};
+			}
+		}
+		
+	});
+</script>
+</body>
+</html>
