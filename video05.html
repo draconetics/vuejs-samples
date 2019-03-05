@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	
+	<div id="app" class="container mt-5">
+		<h1>{{title}}</h1>
+		<input type="text" class="form-control my-3" v-model="newTask" v-on:keyup.enter="addNewTask"/>
+		<button class="btn btn-primary" @click="addNewTask">Add</button>
+
+		<div class="mt-3">
+			<div :class="['alert',(task.state)?'alert-success':'alert-danger']" role="alert" v-for="(task, index) of tasks">
+				<div class="d-flex justify-content-between">
+					<div>
+						<span >{{index}}.- {{task.name}} - {{task.state}}</span>
+					</div>
+					<div>
+						<button class="btn btn-success btn-sm" @click="doTask(index)">Ok</button>
+						<button class="btn btn-danger btn-sm" @click="deleteTask(index)">x</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- production version, optimized for size and speed -->
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+	const app = new Vue({
+		el: '#app',
+		data: {
+			title: 'GYM with VueJs',
+			tasks: [{name:'first task',state:true}],
+			newTask:'',
+		},
+		methods: {
+			addNewTask() {
+
+				this.tasks.push({
+					name: this.newTask,
+					state: true
+				});
+				this.newTask = '';
+				localStorage.setItem('gym-vue', JSON.stringify(this.tasks));
+			},
+			doTask(index) {
+				this.tasks[index].state = false;
+				localStorage.setItem('gym-vue', JSON.stringify(this.tasks));
+			},
+			deleteTask(index) {
+				this.tasks.splice(index,1);
+				localStorage.setItem('gym-vue', JSON.stringify(this.tasks));
+			}
+		},
+		created: function() {
+			let datosDB = JSON.parse(localStorage.getItem('gym-vue'));
+			console.log(datosDB);
+			if(datosDB === null) {
+				this.tasks = [];
+			}else
+				this.tasks = datosDB;
+		}
+		
+	});
+</script>
+</body>
+</html>
