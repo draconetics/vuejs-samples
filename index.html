@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+</head>
+<body>
+	
+	<div id="app">
+		<h1>{{title}}</h1>	
+		<ul>
+			<li v-for="fruit of fruits">{{fruit}}</li>
+		</ul>
+		<ul>
+			<li v-for="object of fruitObjects">{{object.name}}-{{object.quantity}}
+			<input type="number" v-model.number="object.quantity" />
+			<button @click="(object.quantity>=10)?object.quantity=0:object.quantity++">+</button>
+			<span v-if="object.quantity===0">No stock!!</span></li>
+		</ul>
+		<h3><span>{{sumFruits}}</span></h3>
+		<div>
+			<h2>ADD NEW FRUIT</h2>
+			<input type="text" v-model="fruitInput" @keyup.enter="addFruit"/>
+			<input type="number" v-model.number="fruitQuantity" @keyup.enter="addFruit"/>
+			<button v-on:click="addFruit">Add</button>
+		</div>
+	</div>
+<footer id="footer">
+	<p>copyright 2018</p>
+</footer>
+	<!-- production version, optimized for size and speed -->
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+	const app = new Vue({
+		el: '#app',
+		data: {
+			title: 'Hello world with Vue',
+			fruits: ['apple', 'pear', 'banana'],
+			fruitObjects: [
+				{name:'apple', quantity: 4},
+				{name:'pear', quantity: 9},
+				{name:'banana', quantity: 0},
+				{name:'pineapple', quantity: 0},
+				{name:'orange', quantity: 20},
+				{name:'mandarin', quantity: 10}
+			],
+			fruitInput:'',
+			fruitQuantity: 0,
+			total:0
+		},
+		methods: {
+			addFruit() {
+				console.log('click!!');
+				this.fruitObjects.push({
+					name:this.fruitInput,
+					quantity:this.fruitQuantity
+				});
+			},
+
+		},
+		computed: {
+			sumFruits () {
+				this.total = 0;
+				for (var i = 0; i < this.fruitObjects.length; i++) {
+					this.total = this.total + this.fruitObjects[i].quantity;
+				}
+				return this.total;
+			}
+		}
+	});
+</script>
+</body>
+</html>
