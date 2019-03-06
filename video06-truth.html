@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	
+	<div id="app" class="container mt-5">
+		<h3>{{message}}</h3>
+		<button @click="message='changing the message'">changeMessage</button>
+		<button @click="showDestroy">destroy</button>
+	</div>
+
+
+	<!-- production version, optimized for size and speed -->
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+	const app = new Vue({
+		el: '#app',
+		data: {
+			message: 'hello world',
+		},
+		beforeCreate(){
+			//after de new instance and before of 'el' attribute
+			console.log('before create');
+		},
+		created() {
+			//al crear los metodos, obeservadores y eventos, pero
+			//aun no accede al dom(todos los objetos html de la raiz #App)
+			//----aun no puede acceder al dom.
+			console.log('created');
+		},
+		beforeMount() {
+			//se ejecuta antes de insertar el DOM
+			//antes de actualizar los cambios javascript en los objetos html
+			console.log('beforeMount');
+		},
+		mounted() {
+			//una vez renderizado todos los objetos javascript
+			//se ejecuta mounted.
+			console.log('mounted');
+		},
+		//detecta un cambio en vue
+		beforeUpdate() {
+			//antes de un cambio
+			console.log('before update');
+		},
+		updated() {
+			//despues de los cambios
+			console.log('updated');
+		},
+		//destory la instancia VUE
+		beforeDestroy() {
+			//antes de destruir la isntancia.
+			console.log('beforeDestroy');
+		},
+		destroyed() {
+			//se destruye toda la instancia.
+			console.log('destroyed');
+		},
+		methods: {
+			showDestroy() {
+				//destroy the instance
+				this.$destroy();
+			}
+		}
+	});
+</script>
+</body>
+</html>
