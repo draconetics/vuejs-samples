@@ -8,6 +8,7 @@
     <button @click="returnHome">Home</button>
     <button @click="returnNext">Next</button>
     <button @click="returnBefore">Before</button>
+    <Photo></Photo>
   </div>
 </template>
 
