@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	
+	<div id="app" class="container mt-5">
+		<greetings></greetings>
+		<counter></counter>
+	</div>
+
+
+	<!-- production version, optimized for size and speed -->
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+
+	//inside of #app object
+	//all this var can be stored in other file.
+	Vue.component('greetings',{
+		template: `
+		<div>
+			<h3>{{message}}</h3>
+			<hr/>
+		</div>
+		`,
+		data() {
+			return {message:'hello world'}
+		}
+	});
+
+	//inside of #app object
+	//all this var can be stored in other file.
+	Vue.component('counter',{
+		template: `
+		<div>
+			<h1>COUNTER TEMPLATE </h1>
+			<h3>Counter : {{counter}}</h3>
+			<button @click="counter++">+</button>
+		</div>
+		`,
+		data() {
+			return {counter:0}
+		}
+	});
+
+	const app = new Vue({
+		el: '#app',
+		data: {
+			message: 'hello world',
+		}
+	});
+</script>
+</body>
+</html>

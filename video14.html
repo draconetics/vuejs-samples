@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	
+	<div id="app" class="container mt-5">
+		<parent></parent>
+		
+	</div>
+
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@3.1.0/dist/vuex.js"></script>
+
+<script type="text/javascript">
+
+	Vue.component('parent', {
+		template: `
+		<div>
+			THIS IS A NUMBER {{ number }}
+			<child></child>
+		</div>
+		`,
+		computed: {
+			/*
+			number() {
+				return store.stat
+			}*/
+			...Vuex.mapState(['number'])
+		}
+
+	});
+
+
+	Vue.component('child', {
+		template: `
+		<div>
+			child {{ number }}
+			<button class="btn btn-danger" @click="increment">+</button>
+			<button class="btn btn-warning" @click="decrement(2)">-</button>
+			<button class="btn btn-secondary" @click="getCourses">Get Courses</button>
+			<ul v-for="item of cursos">
+				<li>{{item.nombre}}</li>
+			</ul>
+		</div>
+		`,
+		computed: {
+			/*
+			number() {
+				return store.stat
+			}*/
+			...Vuex.mapState(['number','cursos'])
+		},
+		methods: {
+			...Vuex.mapMutations(['increment','decrement']),
+			...Vuex.mapActions(['getCourses'])	
+		}
+	});
+
+
+	const store = new Vuex.Store({
+		state: {
+			number: 10,
+			cursos: []
+		},
+		
+		mutations: {
+			increment(state) {
+				//this.state.number++;
+				state.number++;
+			},
+			decrement(state,n) {
+				state.number = state.number - n;
+			},
+			fillDataCourses(state, dataCourses) {
+				state.cursos = dataCourses;
+			}
+		},
+		actions: {
+			getCourses : async function ({commit}) {
+				const data = await fetch('cursos.json');
+				const courses = await data.json();
+				commit('fillDataCourses', courses);
+			}
+		}
+		
+	});
+
+
+
+	const app = new Vue({
+		el: '#app',
+		store: store
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+	<meta charset="utf-8">
+	<title>VueJs Beginers</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	
+	<div id="app" class="container mt-5">
+		<parent></parent>
+		
+	</div>
+
+
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vuex@3.1.0/dist/vuex.js"></script>
+
+<script type="text/javascript">
+
+	Vue.component('parent', {
+		template: `
+		<div>
+			THIS IS A NUMBER {{ number }}
+			<child></child>
+		</div>
+		`,
+		computed: {
+			/*
+			number() {
+				return store.stat
+			}*/
+			...Vuex.mapState(['number'])
+		}
+
+	});
+
+
+	Vue.component('child', {
+		template: `
+		<div>
+			child {{ number }}
+			<button class="btn btn-danger" @click="increment">+</button>
+			<button class="btn btn-warning" @click="decrement(2)">-</button>
+		</div>
+		`,
+		computed: {
+			/*
+			number() {
+				return store.stat
+			}*/
+			...Vuex.mapState(['number'])
+		},
+		methods: {
+			...Vuex.mapMutations(['increment','decrement'])	
+		}
+	});
+
+
+	const store = new Vuex.Store({
+		state: {
+			number: 10
+		},
+		
+		mutations: {
+			increment(state) {
+				//this.state.number++;
+				state.number++;
+			},
+			decrement(state,n) {
+				state.number = state.number - n;
+			}
+		},
+		
+	});
+
+
+
+	const app = new Vue({
+		el: '#app',
+		store: store
+	});
+</script>
+</body>
+</html>
